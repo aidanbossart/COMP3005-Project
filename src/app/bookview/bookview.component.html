@@ -1,42 +1,5 @@
 <div class="row">
-    <div class="col-sm-2 p-3 px-3">
-        <app-bookcard name="Test Book" author="John Doe" description="This is a test description."></app-bookcard>
+    <div *ngFor="let book of getBooks()" class="col-sm-2 p-3 px-3">
+        <app-bookcard name=book.getName() author=book.getAuthor() genre=book.getGenre()></app-bookcard>
     </div>
-    <div class="col-sm-2 p-3 px-3">
-        <app-bookcard name="Test Book 2" author="John Doe" description="This is a test description."></app-bookcard>
-    </div>
-    <div class="col-sm-2 p-3 px-3">
-        <app-bookcard name="Test Book 3" author="John Doe" description="This is a test description."></app-bookcard>
-    </div>
-    <div class="col-sm-2 p-3 px-3">
-        <app-bookcard name="Test Book 4" author="John Doe" description="This is a test description."></app-bookcard>
-    </div>
-    <div class="col-sm-2 p-3 px-3">
-        <app-bookcard name="Test Book 5" author="John Doe" description="This is a test description."></app-bookcard>
-    </div>
-    <div class="col-sm-2 p-3 px-3">
-        <app-bookcard name="Test Book 6" author="John Doe" description="This is a test description."></app-bookcard>
-    </div>
-    <div class="col-sm-2 p-3 px-3">
-        <app-bookcard name="Test Book" author="John Doe" description="This is a test description."></app-bookcard>
-    </div>
-    <div class="col-sm-2 p-3 px-3">
-        <app-bookcard name="Test Book 2" author="John Doe" description="This is a test description."></app-bookcard>
-    </div>
-    <div class="col-sm-2 p-3 px-3">
-        <app-bookcard name="Test Book 3" author="John Doe" description="This is a test description."></app-bookcard>
-    </div>
-    <div class="col-sm-2 p-3 px-3">
-        <app-bookcard name="Test Book 4" author="John Doe" description="This is a test description."></app-bookcard>
-    </div>
-    <div class="col-sm-2 p-3 px-3">
-        <app-bookcard name="Test Book 5" author="John Doe" description="This is a test description."></app-bookcard>
-    </div>
-    <div class="col-sm-2 p-3 px-3">
-        <app-bookcard name="Test Book 6" author="John Doe" description="This is a test description."></app-bookcard>
-    </div>
-</div>
-
-<div class="row">
-    <*ngFor="let book of books"
 </div>

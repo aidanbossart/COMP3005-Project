@@ -4,6 +4,11 @@ export class Book {
 
     }
 
+    public getId()
+    {
+        return this.id;
+    }
+
     public getName()
     {
         return this.name;

@@ -8,7 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class BookcardComponent implements OnInit {
   @Input() private name:string;
   @Input() private author: string;
-  @Input() private description: string;
+  @Input() private genre: string;
 
   constructor() {
 
@@ -24,9 +24,9 @@ export class BookcardComponent implements OnInit {
     return this.author;
   }
 
-  public getDescription()
+  public getGenre()
   {
-    return this.description;
+    return this.genre;
   }
 
   ngOnInit() {
