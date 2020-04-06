@@ -15,11 +15,13 @@ import { SearchComponent } from './search/search.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CartComponent } from './cart/cart.component';
 import { LoginComponent } from './login/login.component';
+import { BookpageComponent } from './bookpage/bookpage.component';
 
 const appRoutes: Routes = [
   { path: "home", component: HomeComponent},
   { path: "search", component: SearchComponent},
   { path: "cart", component: CartComponent},
+  { path: "book/:id", component: BookpageComponent},
   { path: "", redirectTo: "/home", pathMatch: "full"},
   { path: '**', redirectTo: "/home", pathMatch: "full"},
   { path: 'error', redirectTo: "/home", pathMatch: "full"}
@@ -34,7 +36,8 @@ const appRoutes: Routes = [
     HomeComponent,
     SearchComponent,
     CartComponent,
-    LoginComponent
+    LoginComponent,
+    BookpageComponent
   ],
   imports: [
     BrowserModule,

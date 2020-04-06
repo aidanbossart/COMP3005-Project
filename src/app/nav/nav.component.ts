@@ -21,10 +21,7 @@ export class NavComponent implements OnInit {
 
   onSubmit(searchData)
   {
-    console.log(this.router.url);
     this.router.navigate(["/search"], {queryParams: {search: searchData.search}});
-    //window.location.reload();
-    console.log(this.router.url);
   }
 
 }

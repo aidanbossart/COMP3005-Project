@@ -7,7 +7,7 @@ create table address
 	);
 
 create table payment
-	(payment_id		integer, 
+	(payment_id		serial, 
 	 cardnum		bigint, 
 	 cardtype		varchar(12), 
 	 expiry			varchar(5),
@@ -15,14 +15,14 @@ create table payment
 	);
 
 create table author
-	(author_id		integer,
+	(author_id		serial,
 	 author_name	varchar(15),
 	 primary key (author_id)
 	);
 
 
 create table shipment
-	(shipment_id		integer,
+	(shipment_id		serial,
 	 status			varchar(10),
 	 address		varchar(40),
 	 primary key (shipment_id),
@@ -30,7 +30,7 @@ create table shipment
 	);
 
 create table publisher
-	(publisher_id		integer, 
+	(publisher_id		serial, 
 	 publisher_name			varchar(15),
 	 address		varchar(40),
 	 email			varchar(40),
@@ -41,12 +41,12 @@ create table publisher
 	);
 
 create table book
-	(book_id		integer,
+	(book_id		serial,
 	 book_name			varchar(20), 
-	 author_id		integer,
+	 author_id		serial,
 	 isbn			integer,
 	 genre			varchar(15),
-	 publisher_id		integer,
+	 publisher_id		serial,
 	 pagenum		integer,
 	 price			numeric(5,2),
 	 rating			numeric(3,2),
@@ -56,19 +56,19 @@ create table book
 	);
 
 create table collection
-	(collection_id		integer, 
-     	 book_id		integer,
+	(collection_id		serial, 
+     	 book_id		serial,
 	 collection_name	varchar(15), 
-	 primary key (collection_id),
+	 primary key (collection_id, book_id),
 	 foreign key (book_id) references book(book_id)
 	);
 
 
 create table book_order
-	(order_id		integer, 
-	 payment_id		integer,
-	 shipping_id		integer, 
-	 book_id		integer,
+	(order_id		serial, 
+	 payment_id		serial,
+	 shipping_id		serial, 
+	 book_id		serial,
 	 primary key (order_id),
 	 foreign key (payment_id) references payment(payment_id),
 	 foreign key (shipping_id) references shipment(shipment_id),
@@ -76,8 +76,8 @@ create table book_order
 	);
 
 create table cart
-	(cart_id		integer,
-	 book_id		integer,
+	(cart_id		serial,
+	 book_id		serial,
 	 primary key (cart_id),
 	 foreign key (book_id) references book(book_id)
 	);
@@ -85,12 +85,12 @@ create table cart
 
 create table bookstore_user
 	(
-	 u_id			integer,
+	 u_id			serial,
 	 username       	varchar(15),
 	 password 		varchar(15),
-	 cart_id		integer,
-	 order_id		integer,
-	 payment_id		integer,
+	 cart_id		serial,
+	 order_id		serial,
+	 payment_id		serial,
 	 address		varchar(40),
 	 primary key (u_id),
 	 foreign key (cart_id) references cart(cart_id),
@@ -100,8 +100,8 @@ create table bookstore_user
 	);
 
 create table owner
-	(o_id integer,
-	 u_id integer, 
+	(o_id serial,
+	 u_id serial, 
 	 primary key (o_id),
 	 foreign key (u_id) references bookstore_user(u_id)
 	);

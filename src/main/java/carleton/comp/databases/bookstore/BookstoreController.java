@@ -86,8 +86,35 @@ public class BookstoreController
     allowCredentials = "true",
     maxAge = 1000,
     methods = {RequestMethod.GET, RequestMethod.OPTIONS})
+    @RequestMapping(value="/rest/books/by/isbn", method=RequestMethod.GET)
+    public String getBooksISBN(@RequestParam String search)
+    {
+        // JDBC code goes here. Return json of books in string form.
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/bookstore", "postgres", "root"); Statement statement = connection.createStatement();)
+		{
+			//Get Course 
+            ResultSet resultSet;
+            resultSet = statement.executeQuery("select * "+
+            "from book "+
+            "where UPPER(isbn) LIKE "+
+            "UPPER('%"+search+"%') "
+            );
+            JSONArray bookArray = convertToJSONArray(resultSet);
+            return bookArray.toString();
+		}
+		catch (Exception sqle) {
+            System.out.println("Exception: " + sqle);
+            return "";
+        }        
+    }
+
+    @CrossOrigin(origins = "*",
+    allowedHeaders = "*",
+    allowCredentials = "true",
+    maxAge = 1000,
+    methods = {RequestMethod.GET, RequestMethod.OPTIONS})
     @RequestMapping(value="/rest/authenticate", method=RequestMethod.POST)
-    public String getBookById(@RequestParam String username, @RequestParam String password)
+    public String authenticate(@RequestParam String username, @RequestParam String password)
     {
         try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/bookstore", "postgres", "root"); Statement statement = connection.createStatement();)
 		{
