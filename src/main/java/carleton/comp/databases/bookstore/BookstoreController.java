@@ -108,6 +108,8 @@ public class BookstoreController
         }        
     }
 
+    
+
     @CrossOrigin(origins = "*",
     allowedHeaders = "*",
     allowCredentials = "true",
@@ -134,5 +136,79 @@ public class BookstoreController
             return "";
         }
     }
+
+
+    //ADMINISTRATOR ONLY FUNCTIONS ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    @CrossOrigin(origins = "*",
+    allowedHeaders = "*",
+    allowCredentials = "true",
+    maxAge = 1000,
+    methods = {RequestMethod.GET, RequestMethod.OPTIONS})
+    @RequestMapping(value="/rest/add/book", method=RequestMethod.POST)
+    public void addBook(@RequestParam String book_name,@RequestParam String author_name, @RequestParam String isbn, @RequestParam String genre,@RequestParam String publisher_name ,@RequestParam String pagenum, @RequestParam float price, @RequestParam float rating)
+    {
+        // JDBC code goes here. Return json of books in string form.
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/bookstore", "postgres", "root"); Statement statement = connection.createStatement();)
+		{
+            ResultSet resultSet;
+
+            int author_id = 0 ; //taking this approach instead of dowhile x_id = 0 because of threat of infinite inserts
+            resultSet = statement.executeQuery("SELECT author_id "+"FROM author "+"WHERE "+"'"+author_name+"'"+" = 'author_name'");
+            if(resultSet.next()){
+                author_id = resultSet.getInt(1);
+            }
+            
+            int publisher_id = 0;
+            resultSet = statement.executeQuery("SELECT publisher_id "+"FROM publisher "+"WHERE "+"'"+publisher_name+"'"+" = 'publisher_name'");
+            if(resultSet.next()){
+                publisher_id = resultSet.getInt(1);
+            }
+            statement.executeUpdate("INSERT INTO book " + "VALUES (DEFAULT,"+"'"+book_name+"'"+","+"'"+author_id+"'"+","+"'"+isbn+"'"+","+"'"+genre+"'"+","+"'"+publisher_id+"'"+","+"'"+pagenum+"'"+","+"'"+price+"'"+","+"'"+rating+"'"+")");
+            
+		}
+		catch (Exception sqle) {
+            System.out.println("Exception: " + sqle);
+        }        
+    }
+
+    @CrossOrigin(origins = "*",
+    allowedHeaders = "*",
+    allowCredentials = "true",
+    maxAge = 1000,
+    methods = {RequestMethod.GET, RequestMethod.OPTIONS})
+    @RequestMapping(value="/rest/add/new/publisher", method=RequestMethod.POST)
+    public void addNewPublisher(@RequestParam String publisher_name ,@RequestParam String pub_addr,@RequestParam String pub_email,@RequestParam String pub_phone, @RequestParam String pub_banknum)
+    {
+        // JDBC code goes here. Return json of books in string form.
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/bookstore", "postgres", "root"); Statement statement = connection.createStatement();)
+		{
+            statement.executeUpdate("INSERT INTO author VALUES(DEFAULT,"+"'"+publisher_name+"'"+","+"'"+pub_addr+"'"+","+"'"+pub_email+"'"+","+"'"+pub_phone+"'"+","+"'"+pub_banknum+"'"+")");            
+		}
+		catch (Exception sqle) {
+            System.out.println("Exception: " + sqle);
+        }        
+    }
+
+    @CrossOrigin(origins = "*",
+    allowedHeaders = "*",
+    allowCredentials = "true",
+    maxAge = 1000,
+    methods = {RequestMethod.GET, RequestMethod.OPTIONS})
+    @RequestMapping(value="/rest/add/new/author", method=RequestMethod.POST)
+    public void addNewAuthor(@RequestParam String author_name)
+    {
+        // JDBC code goes here. Return json of books in string form.
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/bookstore", "postgres", "root"); Statement statement = connection.createStatement();)
+		{
+            statement.executeUpdate("INSERT INTO author VALUES(DEFAULT,"+"'"+author_name+"'"+")");            
+		}
+		catch (Exception sqle) {
+            System.out.println("Exception: " + sqle);
+        }        
+    }
+
+
+
+
     
 }
