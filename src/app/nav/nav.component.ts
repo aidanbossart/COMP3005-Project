@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav',
@@ -6,10 +8,23 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
+  private searchForm;
 
-  constructor() { }
+  constructor(private formBuilder: FormBuilder, private router: Router) {
+    this.searchForm = this.formBuilder.group({
+      search: ''
+    });
+   }
 
   ngOnInit() {
+  }
+
+  onSubmit(searchData)
+  {
+    console.log(this.router.url);
+    this.router.navigate(["/search"], {queryParams: {search: searchData.search}});
+    //window.location.reload();
+    console.log(this.router.url);
   }
 
 }

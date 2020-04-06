@@ -1,5 +1,5 @@
 <div class="row">
     <div *ngFor="let book of getBooks()" class="col-sm-2 p-3 px-3">
-        <app-bookcard name=book.getName() author=book.getAuthor() genre=book.getGenre()></app-bookcard>
+        <app-bookcard [book]=book></app-bookcard>
     </div>
 </div>

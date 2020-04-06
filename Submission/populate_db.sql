@@ -57,12 +57,3 @@ insert into bookstore_user values ('3', 'userthree', 'passwordthree', '3','33','
 
 
 insert into owner values ('1', '3');
-
-
-
-
-
-
-
-
-

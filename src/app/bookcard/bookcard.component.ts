@@ -1,4 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output } from '@angular/core';
+import { CartService } from '../cart.service';
+import { Book } from '../book';
 
 @Component({
   selector: 'app-bookcard',
@@ -6,30 +8,32 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./bookcard.component.css']
 })
 export class BookcardComponent implements OnInit {
-  @Input() private name:string;
-  @Input() private author: string;
-  @Input() private genre: string;
+  @Input() private book: Book;
 
-  constructor() {
+  constructor(private cart: CartService) {
 
   }
 
   public getName()
   {
-    return this.name;
+    return this.book.getName();
   }
 
   public getAuthor()
   {
-    return this.author;
+    return this.book.getAuthor();
   }
 
   public getGenre()
   {
-    return this.genre;
+    return this.book.getGenre();
   }
 
   ngOnInit() {
   }
 
+  public addToCart()
+  {
+    this.cart.addToCart(this.book);
+  }
 }

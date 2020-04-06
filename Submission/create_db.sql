@@ -1,4 +1,3 @@
-
 create table address
 	(address		varchar(40), 
 	 postal_code		varchar(6),
@@ -106,17 +105,3 @@ create table owner
 	 primary key (o_id),
 	 foreign key (u_id) references bookstore_user(u_id)
 	);
-
-
-
-
-
-
-
-
-
-
-
-
-
-

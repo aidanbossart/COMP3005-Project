@@ -13,16 +13,9 @@ import org.json.JSONObject;
 @RestController
 public class BookstoreController
 {
-    @CrossOrigin(origins = "*",
-    allowedHeaders = "*",
-    allowCredentials = "true",
-    maxAge = 1000,
-    methods = {RequestMethod.GET, RequestMethod.OPTIONS})
-    @RequestMapping(value="/rest/books", method=RequestMethod.GET)
-
-     
-    public static JSONArray convertToJSONArray(ResultSet resultSet)
-            throws Exception {
+    
+    public static JSONArray convertToJSONArray(ResultSet resultSet) throws Exception
+    {
         JSONArray bookArray = new JSONArray();
 
         while (resultSet.next()) {
@@ -36,53 +29,83 @@ public class BookstoreController
         return bookArray;
     }
     
-    public JSONObject getBooksTitle(String param) {
-        JSONObject fullObject = new JSONObject();
+
+    @CrossOrigin(origins = "*",
+    allowedHeaders = "*",
+    allowCredentials = "true",
+    maxAge = 1000,
+    methods = {RequestMethod.GET, RequestMethod.OPTIONS})
+    @RequestMapping(value="/rest/books/by/title", method=RequestMethod.GET)
+    public String getBooksTitle(@RequestParam String search)
+    {
         // JDBC code goes here. Return json of books in string form.
-        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/Bookstore", "postgres", "root");
-            Statement statement = connection.createStatement();
-            )
-			{
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/bookstore", "postgres", "root"); Statement statement = connection.createStatement();)
+		{
 			//Get Course 
             ResultSet resultSet;
             resultSet = statement.executeQuery("select * "+
             "from book "+
-            "where book_name LIKE "+
-            "'%"+param+"%' " + 
-            "OR where book_name LIKE "+"'"+param+"%' "+
-            "OR where book_name LIKE "+"'%"+param+"' "+
-            "OR where book_name LIKE "+"'"+param+"'"
+            "where UPPER(book_name) LIKE "+
+            "UPPER('%"+search+"%') "
             );
             JSONArray bookArray = convertToJSONArray(resultSet);
-            fullObject.put("bookArray",bookArray);
-            System.out.print(fullObject);
-			}
+            return bookArray.toString();
+		}
 		catch (Exception sqle) {
             System.out.println("Exception: " + sqle);
+            return "";
         }        
-        return fullObject;
     }
 
-    public JSONObject getAllBooks(String param) {
-        JSONObject fullObject = new JSONObject();
+    @CrossOrigin(origins = "*",
+    allowedHeaders = "*",
+    allowCredentials = "true",
+    maxAge = 1000,
+    methods = {RequestMethod.GET, RequestMethod.OPTIONS})
+    @RequestMapping(value="/rest/books/all", method=RequestMethod.GET)
+    public String getAllBooks()
+    {
         // JDBC code goes here. Return json of books in string form.
-        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/Bookstore", "postgres", "root");
-            Statement statement = connection.createStatement();
-            )
-			{
-			//Get Course 
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/bookstore", "postgres", "root"); Statement statement = connection.createStatement();)
+		{
             ResultSet resultSet;
             resultSet = statement.executeQuery("select * "+
             "from book"
             );
             JSONArray bookArray = convertToJSONArray(resultSet);
-            fullObject.put("bookArray",bookArray);
-            System.out.print(fullObject);
-			}
+            return bookArray.toString();
+		}
 		catch (Exception sqle) {
             System.out.println("Exception: " + sqle);
-        }        
-        return fullObject;
+            return "";
+        }
+    }
+
+    @CrossOrigin(origins = "*",
+    allowedHeaders = "*",
+    allowCredentials = "true",
+    maxAge = 1000,
+    methods = {RequestMethod.GET, RequestMethod.OPTIONS})
+    @RequestMapping(value="/rest/authenticate", method=RequestMethod.POST)
+    public String getBookById(@RequestParam String username, @RequestParam String password)
+    {
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/bookstore", "postgres", "root"); Statement statement = connection.createStatement();)
+		{
+            ResultSet resultSet;
+            resultSet = statement.executeQuery("select case when exists (select * from bookstore_user where username = '"+username+"' and password = '"+password+"') then cast(1 as bit) else cast(0 as bit) end");
+            if(resultSet.getBoolean(0) == true)
+            {
+                return "{\"authenticated\": \"true\"}";
+            }
+            else
+            {
+                return "{\"authenticated\": \"false\"}";
+            }
+		}
+		catch (Exception sqle) {
+            System.out.println("Exception: " + sqle);
+            return "";
+        }
     }
     
 }

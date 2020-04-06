@@ -1,8 +1,13 @@
 <ul ngbNav #nav="ngbNav" class="navbar navbar-dark bg-dark justify-content-between">
-    <a href="/" class="navbar-brand">Bookstore</a>
-    <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form>
+    <a routerLink="/home" class="navbar-brand">Bookstore</a>
+    <div style="display:flex; flex-direction: row; justify-content: center; align-items: center">
+        <a routerLink="/cart" style="padding-right: 20px;">Cart</a>
+        
+        <form [formGroup]="searchForm" class="form-inline my-2 my-lg-0" (ngSubmit)="onSubmit(searchForm.value)">
+            <input name="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" formControlName="search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+        
+    </div>
   </ul>
   <div [ngbNavOutlet]="nav"></div>
