@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { CartService } from '../cart.service';
 import { Book } from '../book';
 
@@ -9,9 +10,12 @@ import { Book } from '../book';
 })
 export class BookcardComponent implements OnInit {
   @Input() private book: Book;
+  public cartForm;
 
-  constructor(private cart: CartService) {
-
+  constructor(private cart: CartService, private formBuilder: FormBuilder) {
+    this.cartForm = this.formBuilder.group({
+      username: ''
+    });
   }
 
   public getName()

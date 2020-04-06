@@ -14,7 +14,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { SearchComponent } from './search/search.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CartComponent } from './cart/cart.component';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent, LoginModalContent } from './login/login.component';
 import { BookpageComponent } from './bookpage/bookpage.component';
 
 const appRoutes: Routes = [
@@ -37,8 +37,10 @@ const appRoutes: Routes = [
     SearchComponent,
     CartComponent,
     LoginComponent,
-    BookpageComponent
+    BookpageComponent,
+    LoginModalContent
   ],
+  entryComponents: [LoginModalContent],
   imports: [
     BrowserModule,
     NgbModule,

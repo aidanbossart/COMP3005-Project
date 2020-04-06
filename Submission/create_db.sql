@@ -75,28 +75,27 @@ create table book_order
 	 foreign key (book_id) references book(book_id)
 	);
 
-create table cart
-	(cart_id		serial,
-	 book_id		serial,
-	 primary key (cart_id),
-	 foreign key (book_id) references book(book_id)
-	);
-
-
 create table bookstore_user
 	(
 	 u_id			serial,
 	 username       	varchar(15),
 	 password 		varchar(15),
-	 cart_id		serial,
 	 order_id		serial,
 	 payment_id		serial,
 	 address		varchar(40),
 	 primary key (u_id),
-	 foreign key (cart_id) references cart(cart_id),
 	 foreign key (order_id) references book_order(order_id),
 	 foreign key (payment_id) references payment(payment_id),
 	 foreign key (address) references address(address) 
+	);
+
+create table cart
+	(cart_id		serial,
+	 book_id		serial,
+     u_id           serial,
+	 primary key (cart_id),
+	 foreign key (book_id) references book(book_id),
+     foreign key (u_id) references bookstore_user(u_id)
 	);
 
 create table owner
