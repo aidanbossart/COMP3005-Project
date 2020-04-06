@@ -109,7 +109,33 @@ public class BookstoreController
         }        
     }
 
+    @CrossOrigin(origins = "*",
+    allowedHeaders = "*",
+    allowCredentials = "true",
+    maxAge = 1000,
+    methods = {RequestMethod.GET, RequestMethod.OPTIONS})
+    @RequestMapping(value="/rest/collections/all", method=RequestMethod.GET)
+    public String getAllCollections(@RequestParam String collection)
+    {
+        // JDBC code goes here. Return json of books in string form.
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/bookstore", "postgres", "root"); Statement statement = connection.createStatement();)
+		{
+            ResultSet resultSet;
+            resultSet = statement.executeQuery("select * "+
+            "from collection"
+            );
+            JSONArray bookArray = convertToJSONArray(resultSet);
+            return bookArray.toString();
+		}
+		catch (Exception sqle) {
+            System.out.println("Exception: " + sqle);
+            return "";
+        }
+    }
+
     
+
+
 
     @CrossOrigin(origins = "*",
     allowedHeaders = "*",
@@ -176,7 +202,7 @@ public class BookstoreController
     allowCredentials = "true",
     maxAge = 1000,
     methods = {RequestMethod.GET, RequestMethod.OPTIONS})
-    @RequestMapping(value="/rest/add/book", method=RequestMethod.POST)
+    @RequestMapping(value="/rest/books/add", method=RequestMethod.POST)
     public void addBook(@RequestParam String book_name,@RequestParam String author_name, @RequestParam String isbn, @RequestParam String genre,@RequestParam String publisher_name ,@RequestParam String pagenum, @RequestParam float price, @RequestParam float rating)
     {
         // JDBC code goes here. Return json of books in string form.
@@ -208,7 +234,7 @@ public class BookstoreController
     allowCredentials = "true",
     maxAge = 1000,
     methods = {RequestMethod.GET, RequestMethod.OPTIONS})
-    @RequestMapping(value="/rest/add/new/publisher", method=RequestMethod.POST)
+    @RequestMapping(value="/rest/publisher/add", method=RequestMethod.POST)
     public void addNewPublisher(@RequestParam String publisher_name ,@RequestParam String pub_addr,@RequestParam String pub_email,@RequestParam String pub_phone, @RequestParam String pub_banknum)
     {
         // JDBC code goes here. Return json of books in string form.
