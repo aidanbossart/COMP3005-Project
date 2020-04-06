@@ -1,6 +1,7 @@
 package carleton.comp.databases.bookstore;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -142,13 +143,44 @@ public class BookstoreController
     maxAge = 1000,
     methods = {RequestMethod.GET, RequestMethod.OPTIONS})
     @RequestMapping(value="/rest/authenticate", method=RequestMethod.POST)
-    public String authenticate(@RequestParam String username, @RequestParam String password)
+    public String authenticate(@RequestBody String body)
     {
+        JSONObject result = new JSONObject(body);
         try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/bookstore", "postgres", "root"); Statement statement = connection.createStatement();)
 		{
             ResultSet resultSet;
-            resultSet = statement.executeQuery("select case when exists (select * from bookstore_user where username = '"+username+"' and password = '"+password+"') then cast(1 as bit) else cast(0 as bit) end");
-            if(resultSet.getBoolean(0) == true)
+            resultSet = statement.executeQuery("select case when exists (select * from bookstore_user where username = '"+result.getString("username")+"' and password = '"+result.getString("password")+"') then cast(1 as bit) else cast(0 as bit) end");
+            resultSet.next();
+            if(resultSet.getBoolean(1) == true)
+            {
+                return "{\"authenticated\": \"true\"}";
+            }
+            else
+            {
+                return "{\"authenticated\": \"false\"}";
+            }
+		}
+		catch (Exception sqle) {
+            System.out.println("Exception: " + sqle);
+            return "";
+        }
+    }
+
+    @CrossOrigin(origins = "*",
+    allowedHeaders = "*",
+    allowCredentials = "true",
+    maxAge = 1000,
+    methods = {RequestMethod.GET, RequestMethod.OPTIONS})
+    @RequestMapping(value="/rest/addtocart", method=RequestMethod.POST)
+    public String addToCart(@RequestBody String body)
+    {
+        JSONObject result = new JSONObject(body);
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/bookstore", "postgres", "root"); Statement statement = connection.createStatement();)
+		{
+            ResultSet resultSet;
+            resultSet = statement.executeQuery("select case when exists (select * from bookstore_user where username = '"+result.getString("username")+"' and password = '"+result.getString("password")+"') then cast(1 as bit) else cast(0 as bit) end");
+            resultSet.next();
+            if(resultSet.getBoolean(1) == true)
             {
                 return "{\"authenticated\": \"true\"}";
             }
