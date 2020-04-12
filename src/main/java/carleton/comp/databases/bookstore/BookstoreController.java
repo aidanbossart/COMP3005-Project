@@ -178,16 +178,11 @@ public class BookstoreController
         try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/bookstore", "postgres", "root"); Statement statement = connection.createStatement();)
 		{
             ResultSet resultSet;
-            resultSet = statement.executeQuery("select case when exists (select * from bookstore_user where username = '"+result.getString("username")+"' and password = '"+result.getString("password")+"') then cast(1 as bit) else cast(0 as bit) end");
-            resultSet.next();
-            if(resultSet.getBoolean(1) == true)
-            {
-                return "{\"authenticated\": \"true\"}";
-            }
-            else
-            {
-                return "{\"authenticated\": \"false\"}";
-            }
+            statement.executeUpdate("insert into cart values ((select distinct cart_id from bookstore_user inner join cart on cart.u_id = bookstore_user.u_id where bookstore_user.username = '"+result.getString("username")+"'), "+result.getInt("book_id")+")");
+            resultSet = statement.executeQuery("select * from book join cart on book.book_id = cart.book_id where cart.cart_id = (select distinct cart_id from cart join bookstore_user on cart.u_id = bookstore_user.u_id where bookstore_user.username = '"+result.getString("username")+"')");
+
+            JSONArray cartArray = convertToJSONArray(resultSet);
+            return cartArray.toString();
 		}
 		catch (Exception sqle) {
             System.out.println("Exception: " + sqle);
@@ -203,7 +198,7 @@ public class BookstoreController
     maxAge = 1000,
     methods = {RequestMethod.GET, RequestMethod.OPTIONS})
     @RequestMapping(value="/rest/books/add", method=RequestMethod.POST)
-    public void addBook(@RequestParam String book_name,@RequestParam String author_name, @RequestParam String isbn, @RequestParam String genre,@RequestParam String publisher_name ,@RequestParam String pagenum, @RequestParam float price, @RequestParam float rating)
+    public void addBook(@RequestParam String book_name, @RequestParam String author_name, @RequestParam String isbn, @RequestParam String genre, @RequestParam String publisher_name, @RequestParam String pagenum, @RequestParam float price, @RequestParam float rating)
     {
         // JDBC code goes here. Return json of books in string form.
         try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/bookstore", "postgres", "root"); Statement statement = connection.createStatement();)
