@@ -18,4 +18,9 @@ export class BookService {
   {
     return this.http.get("http://localhost:8080/rest/books/by/title?search="+encodeURIComponent(name));
   }
+
+  public getBookById(id)
+  {
+    return this.http.get("http://localhost:8080/rest/books/by/id?id="+encodeURIComponent(id));
+  }
 }

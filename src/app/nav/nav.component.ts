@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginComponent } from '../login/login.component';
+import { LoginService } from '../login.service';
 
 @Component({
   selector: 'app-nav',
@@ -11,7 +12,7 @@ import { LoginComponent } from '../login/login.component';
 export class NavComponent implements OnInit {
   private searchForm;
 
-  constructor(private formBuilder: FormBuilder, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private router: Router, protected login: LoginService) {
     this.searchForm = this.formBuilder.group({
       search: ''
     });

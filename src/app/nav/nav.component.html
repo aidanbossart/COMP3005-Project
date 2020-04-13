@@ -1,7 +1,7 @@
 <ul ngbNav #nav="ngbNav" class="navbar navbar-dark bg-dark justify-content-between">
     <a routerLink="/home" class="navbar-brand">Bookstore</a>
     <div style="display:flex; flex-direction: row; justify-content: center; align-items: center">
-        <a routerLink="/cart" style="padding-right: 20px;">Cart</a>
+        <a *ngIf="this.login.getAuthenticated()" routerLink="/cart" style="padding-right: 20px;">Cart</a>
 
         <app-login></app-login>
         <div style="width: 20px;"></div>

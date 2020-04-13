@@ -6,7 +6,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let book of getBooks()">
+        <tr *ngFor="let book of this.books">
             <th scope="col">{{ book.getName() }}</th>
             <th scope="col">CDN$ {{ book.getPrice() }}</th>
         </tr>

@@ -114,6 +114,29 @@ public class BookstoreController
     allowCredentials = "true",
     maxAge = 1000,
     methods = {RequestMethod.GET, RequestMethod.OPTIONS})
+    @RequestMapping(value="/rest/books/by/id", method=RequestMethod.GET)
+    public String getBooksId(@RequestParam String id)
+    {
+        // JDBC code goes here. Return json of books in string form.
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/bookstore", "postgres", "root"); Statement statement = connection.createStatement();)
+		{
+			//Get Course 
+            ResultSet resultSet;
+            resultSet = statement.executeQuery("select * from book where book_id = '"+id+"'");
+            JSONArray bookArray = convertToJSONArray(resultSet);
+            return bookArray.toString();
+		}
+		catch (Exception sqle) {
+            System.out.println("Exception: " + sqle);
+            return "";
+        }        
+    }
+
+    @CrossOrigin(origins = "*",
+    allowedHeaders = "*",
+    allowCredentials = "true",
+    maxAge = 1000,
+    methods = {RequestMethod.GET, RequestMethod.OPTIONS})
     @RequestMapping(value="/rest/collections/all", method=RequestMethod.GET)
     public String getAllCollections(@RequestParam String collection)
     {
@@ -134,8 +157,27 @@ public class BookstoreController
     }
 
     
-
-
+    //select * from book join cart on book.book_id = cart.book_id where cart.cart_id = (select distinct cart_id from cart join bookstore_user on cart.u_id = bookstore_user.u_id where bookstore_user.username = 'userone')
+    @CrossOrigin(origins = "*",
+    allowedHeaders = "*",
+    allowCredentials = "true",
+    maxAge = 1000,
+    methods = {RequestMethod.GET, RequestMethod.OPTIONS})
+    @RequestMapping(value="/rest/cart", method=RequestMethod.GET)
+    public String getCart(@RequestParam String username)
+    {
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/bookstore", "postgres", "root"); Statement statement = connection.createStatement();)
+		{
+            ResultSet resultSet;
+            resultSet = statement.executeQuery("select * from book join cart on book.book_id = cart.book_id where cart.cart_id = (select distinct cart_id from cart join bookstore_user on cart.u_id = bookstore_user.u_id where bookstore_user.username = '"+username+"')");
+            JSONArray bookArray = convertToJSONArray(resultSet);
+            return bookArray.toString();
+		}
+		catch (Exception sqle) {
+            System.out.println("Exception: " + sqle);
+            return "";
+        }
+    }
 
     @CrossOrigin(origins = "*",
     allowedHeaders = "*",
