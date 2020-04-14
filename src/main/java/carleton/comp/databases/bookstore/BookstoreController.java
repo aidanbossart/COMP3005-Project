@@ -301,9 +301,6 @@ public class BookstoreController
             System.out.println("Exception: " + sqle);
         }        
     }
-
-
-
-
+    
     
 }
