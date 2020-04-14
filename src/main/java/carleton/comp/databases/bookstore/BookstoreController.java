@@ -277,7 +277,7 @@ public class BookstoreController
         // JDBC code goes here. Return json of books in string form.
         try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/bookstore", "postgres", "root"); Statement statement = connection.createStatement();)
 		{
-            statement.executeUpdate("INSERT INTO author VALUES(DEFAULT,"+"'"+publisher_name+"'"+","+"'"+pub_addr+"'"+","+"'"+pub_email+"'"+","+"'"+pub_phone+"'"+","+"'"+pub_banknum+"'"+")");            
+            statement.executeUpdate("INSERT INTO publisher VALUES(DEFAULT,"+"'"+publisher_name+"'"+","+"'"+pub_addr+"'"+","+"'"+pub_email+"'"+","+"'"+pub_phone+"'"+","+"'"+pub_banknum+"'"+")");            
 		}
 		catch (Exception sqle) {
             System.out.println("Exception: " + sqle);
