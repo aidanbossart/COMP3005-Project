@@ -240,29 +240,32 @@ public class BookstoreController
     maxAge = 1000,
     methods = {RequestMethod.GET, RequestMethod.OPTIONS})
     @RequestMapping(value="/rest/books/add", method=RequestMethod.POST)
-    public void addBook(@RequestParam String book_name, @RequestParam String author_name, @RequestParam String isbn, @RequestParam String genre, @RequestParam String publisher_name, @RequestParam String pagenum, @RequestParam float price, @RequestParam float rating)
+    public void addBook(@RequestBody String body)
     {
+        JSONObject result = new JSONObject(body);
         // JDBC code goes here. Return json of books in string form.
         try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/bookstore", "postgres", "root"); Statement statement = connection.createStatement();)
 		{
             ResultSet resultSet;
 
             int author_id = 0 ; //taking this approach instead of dowhile x_id = 0 because of threat of infinite inserts
-            resultSet = statement.executeQuery("SELECT author_id "+"FROM author "+"WHERE "+"'"+author_name+"'"+" = 'author_name'");
+            resultSet = statement.executeQuery("SELECT distinct author_id "+"FROM author "+"WHERE "+"'"+result.getString("author")+"'"+" = author_name");
             if(resultSet.next()){
                 author_id = resultSet.getInt(1);
             }
             
+            
             int publisher_id = 0;
-            resultSet = statement.executeQuery("SELECT publisher_id "+"FROM publisher "+"WHERE "+"'"+publisher_name+"'"+" = 'publisher_name'");
+            resultSet = statement.executeQuery("SELECT distinct publisher_id "+"FROM publisher "+"WHERE "+"'"+result.getString("publisher")+"'"+" = publisher_name");
             if(resultSet.next()){
                 publisher_id = resultSet.getInt(1);
             }
-            statement.executeUpdate("INSERT INTO book " + "VALUES (DEFAULT,"+"'"+book_name+"'"+","+"'"+author_id+"'"+","+"'"+isbn+"'"+","+"'"+genre+"'"+","+"'"+publisher_id+"'"+","+"'"+pagenum+"'"+","+"'"+price+"'"+","+"'"+rating+"'"+")");
+            statement.executeUpdate("INSERT INTO book " + "VALUES (DEFAULT,"+"'"+result.getString("name")+"'"+",'"+author_id+"',"+"'"+result.getString("isbn")+"'"+","+"'"+result.getString("genre")+"'"+",'"+publisher_id+"',"+"'"+result.getString("pagenum")+"'"+","+"'"+result.getString("price")+"'"+","+"0.0"+")");
             
 		}
 		catch (Exception sqle) {
             System.out.println("Exception: " + sqle);
+            System.out.println(result.toString());
         }        
     }
 

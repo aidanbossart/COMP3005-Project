@@ -33,7 +33,6 @@ export class LoginService {
       if(this.authenticated == true)
       {
         this.username = data["username"];
-        console.log(data["username"]);
       }
       else
       {

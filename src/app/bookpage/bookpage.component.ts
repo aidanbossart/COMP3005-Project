@@ -14,6 +14,11 @@ export class BookpageComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private bookService: BookService) { }
 
+  public getBook()
+  {
+    return this.book;
+  }
+
   async ngOnInit() {
     await this.loadBook();
     console.log(this.book);
