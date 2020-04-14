@@ -1,0 +1,11 @@
+<form [formGroup]="adminForm" (ngSubmit)="onSubmit(adminForm.value)">
+    Name: <input type="text" formControlName="name"><br>
+    Author: <input type="text" formControlName="author"><br>
+    Genre: <input type="text" formControlName="genre"><br>
+    isbn: <input type="text" formControlName="isbn"><br>
+    Publisher: <input type="text" formControlName="publisher"><br>
+    Number of pages: <input type="text" formControlName="pagenum"><br>
+    Price: <input type="text" formControlName="price"><br>
+
+    <button class="button" type="submit">Add Book to Store</button>
+</form>

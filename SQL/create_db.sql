@@ -97,7 +97,7 @@ create table cart
 	(cart_id		serial,
 	 book_id		serial,
      u_id           serial,
-	 num			integer,
+	 quantity		integer,
 	 primary key (cart_id, book_id),
 	 foreign key (book_id) references book(book_id),
      foreign key (u_id) references bookstore_user(u_id)

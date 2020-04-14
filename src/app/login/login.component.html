@@ -1,1 +1,2 @@
-<button class="btn btn-primary" (click)="open()">Login</button>
+<button *ngIf="!this.login.getAuthenticated(); else elseBlock" class="btn btn-primary" (click)="open()">Login</button>
+<ng-template #elseBlock><label style="color: white;">Logged In</label></ng-template>

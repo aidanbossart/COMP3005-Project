@@ -52,9 +52,9 @@ insert into bookstore_user values (DEFAULT, 'userone', 'passwordone', 1,1,'1111 
 insert into bookstore_user values (DEFAULT, 'usertwo', 'passwordtwo', 2,2,'2222 two road');
 insert into bookstore_user values (DEFAULT, 'userthree', 'passwordthree', 3,3,'3333 three road');
 
-insert into cart values (DEFAULT, '1', 1);
-insert into cart values (DEFAULT, '2', 1);
-insert into cart values (DEFAULT, '4', 1);
+insert into cart values (DEFAULT, '1', 1, 1);
+insert into cart values (DEFAULT, '2', 2, 1);
+insert into cart values (DEFAULT, '4', 3, 1);
 
 
 insert into owner values ('1', '3');

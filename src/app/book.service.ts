@@ -23,4 +23,9 @@ export class BookService {
   {
     return this.http.get("http://localhost:8080/rest/books/by/id?id="+encodeURIComponent(id));
   }
+
+  public addBook(data)
+  {
+    return this.http.post("http://localhost:8080/rest/books/add", data);
+  }
 }

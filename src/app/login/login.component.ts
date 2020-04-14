@@ -54,7 +54,7 @@ export class LoginModalContent {
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private modalService: NgbModal) { }
+  constructor(private modalService: NgbModal, protected login: LoginService) { }
 
   ngOnInit() {
   }

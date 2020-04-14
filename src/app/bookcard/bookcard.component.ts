@@ -33,6 +33,11 @@ export class BookcardComponent implements OnInit {
     return this.book.getGenre();
   }
 
+  public getId()
+  {
+    return this.book.getId();
+  }
+
   ngOnInit() {
   }
 
