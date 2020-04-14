@@ -220,7 +220,7 @@ public class BookstoreController
         try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/bookstore", "postgres", "root"); Statement statement = connection.createStatement();)
 		{
             ResultSet resultSet;
-            statement.executeUpdate("insert into cart values ((select distinct cart_id from bookstore_user inner join cart on cart.u_id = bookstore_user.u_id where bookstore_user.username = '"+result.getString("username")+"'), "+result.getInt("book_id")+")");
+            statement.executeUpdate("insert into cart values ((select distinct cart_id from bookstore_user inner join cart on cart.u_id = bookstore_user.u_id where bookstore_user.username = '"+result.getString("username")+"'), "+result.getInt("book_id")+", 1)");
             resultSet = statement.executeQuery("select * from book join cart on book.book_id = cart.book_id where cart.cart_id = (select distinct cart_id from cart join bookstore_user on cart.u_id = bookstore_user.u_id where bookstore_user.username = '"+result.getString("username")+"')");
 
             JSONArray cartArray = convertToJSONArray(resultSet);
