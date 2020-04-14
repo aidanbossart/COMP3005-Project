@@ -50,6 +50,10 @@ create table book
 	 pagenum		integer,
 	 price			numeric(5,2),
 	 rating			numeric(3,2),
+	 pub_percent	 	numeric(3,2),
+	 stock			integer,
+	 min_stock		integer,
+	 sold_month		integer,
 	 primary key (book_id),
 	 foreign key (author_id) references author(author_id),
 	 foreign key (publisher_id) references publisher(publisher_id)
@@ -104,4 +108,14 @@ create table owner
 	 u_id 			serial, 
 	 primary key (o_id),
 	 foreign key (u_id) references bookstore_user(u_id)
+	);
+
+create table reports
+	(report_id		serial,
+	 total_sales		numeric(5,2),
+	 total_expenditures	numeric(5,2),
+	 sales_genre		numeric(5,2),
+	 sales_author		numeric(5,2),
+	 sales_publisher	numeric(5,2),
+	 primary key (report_id)
 	);
