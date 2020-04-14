@@ -1,6 +1,0 @@
-Assumptions:
-
--Many Authors may work together to write a single book.
--A book may be distributed by multiple publishers, be it different release versions or the such
--A single owner may have multiple collections.
--A single shipment per each cart purchase
